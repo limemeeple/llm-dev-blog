@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LLM 개발 일지</title>
+    <link>http://localhost:1313/categories/llm-%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/</link>
+    <description>Recent content on LLM 개발 일지</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Fri, 26 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/llm-%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Day 0 — LLM 개발자로의 첫 발</title>
+      <link>http://localhost:1313/posts/01-hello-world/</link>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/01-hello-world/</guid>
+      <description>Java 백엔드 개발자가 LLM 엔지니어로 전향하기로 했다. 첫 프로젝트는 RAG 기반 문서 Q&amp;amp;A 시스템. 그 여정의 0일차 기록.</description>
+    </item>
+  </channel>
+</rss>
