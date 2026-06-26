@@ -1,4 +1,4 @@
-baseURL = "https://example.com/"
+baseURL = "https://limemeeple.github.io/llm-dev-blog/"
 title = "LLM 개발 일지"
 theme = "PaperMod"
 
