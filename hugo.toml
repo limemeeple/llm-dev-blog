@@ -1,0 +1,58 @@
+baseURL = "https://example.com/"
+title = "LLM 개발 일지"
+theme = "PaperMod"
+
+defaultContentLanguage = "ko"
+languageCode = "ko-kr"
+
+# 페이지네이션 (한 페이지에 보여줄 글 수)
+[pagination]
+  pagerSize = 10
+
+# 코드 하이라이팅
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = true
+    noClasses = true
+
+[params]
+  # 메인 화면 모드: "posts" 목록을 첫 화면에 보여줌
+  defaultTheme = "auto"        # auto | light | dark
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowCodeCopyButtons = true   # 코드 블록에 복사 버튼
+  ShowToc = true               # 목차
+  TocOpen = false
+
+  # 홈 화면 소개
+  [params.homeInfoParams]
+    Title = "안녕, LLM 개발 일지에 온 걸 환영해 👋"
+    Content = "Java 백엔드 개발자가 LLM 엔지니어로 전향하는 과정을 기록합니다. RAG, 임베딩, 평가 — 삽질과 성장의 기록."
+
+  # 소셜 링크 (필요 없으면 지워도 됨)
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/your-username"
+
+# 상단 메뉴
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "글 목록"
+    url = "/posts/"
+    weight = 10
+  [[menu.main]]
+    identifier = "tags"
+    name = "태그"
+    url = "/tags/"
+    weight = 20
+  [[menu.main]]
+    identifier = "search"
+    name = "검색"
+    url = "/search/"
+    weight = 30
+
+# 검색 기능을 위한 출력 설정
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
