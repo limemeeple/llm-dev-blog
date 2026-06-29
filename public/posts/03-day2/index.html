@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko" dir="auto" data-theme="auto">
+
+<head><script src="/llm-dev-blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=llm-dev-blog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Day 2 — 첫 RAG 실행 결과 | LLM 개발 일지</title>
+<meta name="keywords" content="회고, LLM, RAG">
+<meta name="description" content="제대로 실행이 된 이후 무엇을 할까?">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/llm-dev-blog/posts/03-day2/">
+<link crossorigin="anonymous" href="/llm-dev-blog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/llm-dev-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/llm-dev-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/llm-dev-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/llm-dev-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/llm-dev-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ko" href="http://localhost:1313/llm-dev-blog/posts/03-day2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/llm-dev-blog/" accesskey="h" title="LLM 개발 일지 (Alt + H)">LLM 개발 일지</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/llm-dev-blog/posts/" title="글 목록">
+                    <span>글 목록</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/llm-dev-blog/tags/" title="태그">
+                    <span>태그</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/llm-dev-blog/search/" title="검색">
+                    <span>검색</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Day 2 — 첫 RAG 실행 결과
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-06-29 00:00:00 +0000 UTC'>2026년 6월 29일</span>&nbsp;·&nbsp;<span>9 분</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">목차</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%ec%b2%ab-rag-%ec%a0%84%ec%b2%b4-%ed%8c%8c%ec%9d%b4%ed%94%84-%eb%9d%bc%ec%9d%b8-%eb%8f%99%ec%9e%91" aria-label="첫 RAG 전체 파이프 라인 동작">첫 RAG 전체 파이프 라인 동작</a></li>
+            <li>
+                <a href="#%ed%84%b0%eb%af%b8%eb%84%90-%ec%9e%85%eb%a0%a5%ec%9d%84-%eb%a7%8c%eb%93%a4%ec%9e%90" aria-label="터미널 입력을 만들자!">터미널 입력을 만들자!</a></li>
+            <li>
+                <a href="#%ea%b0%91%ec%9e%91%ec%8a%a4%eb%9f%ac%ec%9a%b4-%ed%94%84%eb%a1%9c%ec%a0%9d%ed%8a%b8" aria-label="갑작스러운 프로젝트!">갑작스러운 프로젝트!</a></li>
+            <li>
+                <a href="#%ed%8c%8c%ec%9d%bc-%ed%98%95%ec%8b%9d-%ec%9d%bd%ec%96%b4%ec%98%a4%ea%b8%b0" aria-label="파일 형식 읽어오기!">파일 형식 읽어오기!</a></li>
+            <li>
+                <a href="#%ec%9e%a0%ea%b9%90%eb%93%a0-%ec%9d%98%eb%ac%b8-%eb%8b%a4%eb%a5%b8-%ec%82%ac%eb%9e%8c%ec%9d%b4-%ec%9d%b4%ea%b1%b8-%ec%82%ac%ec%9a%a9%ed%95%a0%eb%95%8c-%eb%9d%bc%ec%9d%b4%eb%b8%8c%eb%9f%ac%eb%a6%ac%eb%8a%94-%ec%96%b4%eb%96%bb%ea%b2%8c-%ed%95%98%eb%82%98" aria-label="잠깐든 의문! 다른 사람이 이걸 사용할때 라이브러리는 어떻게 하나?">잠깐든 의문! 다른 사람이 이걸 사용할때 라이브러리는 어떻게 하나?</a></li>
+            <li>
+                <a href="#%ec%97%ac%ea%b8%b0%ec%84%9c-%ed%95%9c%ea%b0%80%ec%a7%80-%eb%8d%94-github%ec%97%90-%ec%98%ac%eb%a6%ac%eb%a9%b4-%ec%95%88%eb%90%98%eb%8a%94-%ed%8c%8c%ec%9d%bc%ec%9d%80-%ec%96%b4%eb%96%bb%ea%b2%8c-%ed%95%98%ec%a7%80" aria-label="여기서 한가지 더! GitHub에 올리면 안되는 파일은 어떻게 하지?">여기서 한가지 더! GitHub에 올리면 안되는 파일은 어떻게 하지?</a></li>
+            <li>
+                <a href="#venv%eb%9e%80-%eb%ac%b4%ec%97%87%ec%9d%b8%ea%b0%80" aria-label="venv란 무엇인가?">venv란 무엇인가?</a></li>
+            <li>
+                <a href="#%eb%8b%a4%ec%8b%9c-%ed%94%84%eb%a1%9c%ec%a0%9d%ed%8a%b8%eb%a1%9c-%eb%8f%8c%ec%95%84%ec%99%80%ec%84%9c-%eb%ac%b8%ec%84%9c%eb%a5%bc-%eb%84%a3%ea%b3%a0-%eb%8f%8c%eb%a0%a4%eb%b3%b4%ec%9e%90" aria-label="다시 프로젝트로 돌아와서 문서를 넣고 돌려보자!">다시 프로젝트로 돌아와서 문서를 넣고 돌려보자!</a></li>
+            <li>
+                <a href="#%ec%a4%91%eb%b3%b5-%ec%b2%b4%ed%81%ac-%ea%b8%b0%eb%8a%a5%ec%9d%84-%eb%84%a3%ec%9e%90" aria-label="중복 체크 기능을 넣자!">중복 체크 기능을 넣자!</a></li>
+            <li>
+                <a href="#%eb%ac%b8%ec%a0%9c-%eb%b0%9c%ec%83%9d-%eb%84%88%eb%ac%b4-%eb%a7%8e%ec%9d%80-%ec%a4%91%eb%b3%b5-%eb%ac%b8%ea%b5%ac-%eb%b0%9c%ec%83%9d" aria-label="문제 발생! 너무 많은 중복 문구 발생!">문제 발생! 너무 많은 중복 문구 발생!</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="첫-rag-전체-파이프-라인-동작">첫 RAG 전체 파이프 라인 동작<a hidden class="anchor" aria-hidden="true" href="#첫-rag-전체-파이프-라인-동작">#</a></h2>
+<p>첫 RAG 전체 파이프 라인이 처음부터 끝까지 동작했다고 한다.</p>
+<p><img alt="alt text" loading="lazy" src="../img/RAG_Result.png"></p>
+<p>[이번 코드의 흐름]</p>
+<p>문서를 조각으로 나누고 → 각 조각을 벡터로 임베딩하고 → 질문과 가장 비슷한 조각을 검색해서 → 그 조각만 Claude에게 근거로 주고 답변을 생성</p>
+<p>하지만 문제는 문서와 질문을 강제적으로 코드에 넣어서 테스트했다는 부분이다.</p>
+<p>내가 만들고 싶은건 실제 문서를 벡터화 해서 직접 입력한 질문에 대답하게 하는 부분이니 말이다.</p>
+<h2 id="터미널-입력을-만들자">터미널 입력을 만들자!<a hidden class="anchor" aria-hidden="true" href="#터미널-입력을-만들자">#</a></h2>
+<pre tabindex="0"><code>if __name__ == &#34;__main__&#34;:
+    question = &#34;재택근무는 일주일에 며칠까지 할 수 있어?&#34;
+    print(f&#34;❓ 질문: {question}\n&#34;)
+
+    # 검색은 한 번만 — 결과를 받아서 생성 단계로 넘긴다
+    retrieved = retrieve(question)
+
+    print(&#34;💬 답변:&#34;)
+    try:
+        print(answer(question, retrieved))
+    except Exception as e:
+        print(f&#34;⚠️ 생성 단계 실패: {e}&#34;)
+        print(&#34;   (API 키나 크레딧을 확인해 주세요. 검색은 위에서 정상 동작했습니다.)&#34;)
+</code></pre><p>현재는 &lsquo;재택근무는 일주일에 며칠까지 할 수 있어?&lsquo;라는 질문이 정해져 있고 그에 대한 답변을 받았다.</p>
+<p>이 부분을 input 처리하여 질문을 받을 수 있게 아래와 같이 수정하였다.</p>
+<pre tabindex="0"><code>if __name__ == &#34;__main__&#34;:
+    print(&#34;=&#34; * 50)
+    print(&#34;📚 사내 정책 Q&amp;A 봇 (종료하려면 &#39;quit&#39; 또는 &#39;exit&#39; 입력)&#34;)
+    print(&#34;=&#34; * 50)
+
+    while True:
+        question = input(&#34;\n❓ 질문: &#34;).strip()
+
+        # 종료 명령
+        if question.lower() in (&#34;quit&#34;, &#34;exit&#34;, &#34;종료&#34;):
+            print(&#34;👋 종료합니다.&#34;)
+            break
+
+        # 빈 입력은 건너뛰기
+        if not question:
+            continue
+
+        # 검색 → 생성
+        retrieved = retrieve(question)
+
+        print(&#34;💬 답변:&#34;)
+        try:
+            print(answer(question, retrieved))
+        except Exception as e:
+            print(f&#34;⚠️ 생성 단계 실패: {e}&#34;)
+            print(&#34;   (API 키나 크레딧을 확인해 주세요. 검색은 위에서 정상 동작했습니다.)&#34;)
+</code></pre><p>&lsquo;while True&rsquo; 루프로 감싼 이유는 모델 로딩이 오래 걸리다 보니 한번 실행해서 계속 질문할 수 있게 하기 위해서다.</p>
+<p>[실행결과]
+<img alt="alt text" loading="lazy" src="../img/RAG_input_Result.png"></p>
+<h2 id="갑작스러운-프로젝트">갑작스러운 프로젝트!<a hidden class="anchor" aria-hidden="true" href="#갑작스러운-프로젝트">#</a></h2>
+<p>현재 개발하고 있는 부분을 아내와 공유하고 있었는데 아내가 구현하고 싶은 기능이 있다고 했다.</p>
+<p>그 내용을 정리하면 아래와 같았다.</p>
+<ol>
+<li>자신의 폴더에 있는 자료를 전부 등록하여 자료 내용을 조견표식으로 정리.</li>
+<li>내가 작성중 자료와 기존 자료 내용간 중언이 있는지 체크하고 놓친 내용있는지 확인.</li>
+<li>프로젝트를 옮길때마다 새로운 문서등록 필요 한마디로 재사용 가능해야함.</li>
+</ol>
+<p>그래서 해당 내용으로 개발 진행하면서 배워보기를 원한다고 파트너에게 전달했고 학습 순서는 유지하되 최종목표는 위의 기능을 구현하는걸로 잡고 프로젝트를 시작했다.</p>
+<h2 id="파일-형식-읽어오기">파일 형식 읽어오기!<a hidden class="anchor" aria-hidden="true" href="#파일-형식-읽어오기">#</a></h2>
+<p>첫번째 한일은 어떤 문서를 읽어 들이는지 확인하는 부분이었다.</p>
+<p>파이썬으로 문서를 읽을 때 형식마다 난이도가 꽤 다른데 &lsquo;한글(.hwp)&lsquo;는 까다롭다고 한다.</p>
+<p>확인한 결과 PPT, EXCEL, PDT가 주류라는 답변을 받아서 이 세형식을 가지고 진행하기로 했다.</p>
+<p>[파트너가 알려준 세 형식(PPT, EXCEL, PDT)의 성격]</p>
+<p><strong>PDF는</strong> 보통 줄글(텍스트)이라 지금까지 다룬 방식과 잘 맞아요. 문단 단위로 조각내면 됩니다. 다만 스캔해서 이미지로 된 PDF는 글자를 못 읽으니, 그런 게 섞여 있으면 따로 처리가 필요해요.</p>
+<p><strong>PPT는</strong> 슬라이드마다 텍스트 상자가 흩어져 있는 구조예요. 슬라이드 한 장을 조각 하나로 보면 자연스럽습니다.</p>
+<p><strong>엑셀이</strong> 좀 특이해요. 줄글이 아니라 표(행과 열)라서, 그냥 텍스트로 뽑으면 의미가 깨지기 쉽습니다. 셀 내용이 짧은 키워드들이라 임베딩·유사도 검색과 잘 안 맞는 경우도 많고요. 그래서 엑셀은 &ldquo;내용 검색&rdquo; 대상으로 넣을지, 아니면 표는 표대로 따로 다룰지 판단이 필요해요.</p>
+<p>이제 문서 형식이 정해졌으니 각 형식을 읽을 수 있는 라이브러리 설치를 했다.</p>
+<pre tabindex="0"><code>pip install pypdf python-pptx openpyxl
+</code></pre><p>pypdf는 PDF, python-pptx는 파워포인트, openpyxl은 엑셀을 읽는 도구이다.</p>
+<p>그리고 기존에 학습하던 코드에 아래와 같은 코드를 추가 하였다.</p>
+<p>[파일 읽기 함수 추가]</p>
+<pre tabindex="0"><code>#python
+
+from pathlib import Path
+from pypdf import PdfReader
+from pptx import Presentation
+from openpyxl import load_workbook
+
+
+def read_pdf(path):
+    &#34;&#34;&#34;PDF에서 페이지별 텍스트를 뽑는다.&#34;&#34;&#34;
+    reader = PdfReader(path)
+    texts = []
+    for page in reader.pages:
+        t = (page.extract_text() or &#34;&#34;).strip()
+        if t:
+            texts.append(t)
+    return texts
+
+
+def read_pptx(path):
+    &#34;&#34;&#34;PPT에서 슬라이드별 텍스트를 뽑는다.&#34;&#34;&#34;
+    prs = Presentation(path)
+    texts = []
+    for slide in prs.slides:
+        parts = []
+        for shape in slide.shapes:
+            if shape.has_text_frame:
+                parts.append(shape.text_frame.text)
+        t = &#34;\n&#34;.join(parts).strip()
+        if t:
+            texts.append(t)
+    return texts
+
+
+def read_xlsx(path):
+    &#34;&#34;&#34;엑셀에서 시트별로 행 텍스트를 뽑는다.&#34;&#34;&#34;
+    wb = load_workbook(path, data_only=True)
+    texts = []
+    for ws in wb.worksheets:
+        rows = []
+        for row in ws.iter_rows(values_only=True):
+            cells = [str(c) for c in row if c is not None]
+            if cells:
+                rows.append(&#34; | &#34;.join(cells))
+        t = &#34;\n&#34;.join(rows).strip()
+        if t:
+            texts.append(f&#34;[{ws.title}]\n{t}&#34;)
+    return texts
+</code></pre><p>[폴더 전체를 훑는 함수]</p>
+<pre tabindex="0"><code>#python
+
+def load_folder(folder):
+    &#34;&#34;&#34;폴더 안의 PDF·PPT·엑셀을 모두 읽어 (출처, 내용) 조각 목록으로 만든다.&#34;&#34;&#34;
+    folder = Path(folder)
+    chunks = []          # 조각 텍스트
+    sources = []         # 각 조각의 출처(파일명)
+
+    for path in folder.rglob(&#34;*&#34;):
+        suffix = path.suffix.lower()
+        try:
+            if suffix == &#34;.pdf&#34;:
+                pieces = read_pdf(path)
+            elif suffix == &#34;.pptx&#34;:
+                pieces = read_pptx(path)
+            elif suffix == &#34;.xlsx&#34;:
+                pieces = read_xlsx(path)
+            else:
+                continue
+        except Exception as e:
+            print(f&#34;   ⚠️ 읽기 실패: {path.name} ({e})&#34;)
+            continue
+
+        for i, piece in enumerate(pieces):
+            chunks.append(piece)
+            sources.append(f&#34;{path.name} (#{i+1})&#34;)
+
+        if pieces:
+            print(f&#34;   ✅ {path.name} → {len(pieces)}조각&#34;)
+
+    return chunks, sources
+</code></pre><p>[하드코딩 되어 있던 문서 부분을 폴더에서 읽어오게 전환]</p>
+<pre tabindex="0"><code>#python
+
+# 읽어올 자료 폴더 — 다른 프로젝트로 옮길 땐 이 경로만 바꾸면 됨
+DATA_FOLDER = r&#34;C:\llm-rag-qa\data&#34;
+
+print(f&#34;📂 &#39;{DATA_FOLDER}&#39; 폴더에서 자료를 읽는 중...&#34;)
+chunks, sources = load_folder(DATA_FOLDER)
+print(f&#34;📄 총 {len(chunks)}개의 조각을 읽었습니다.\n&#34;)
+</code></pre><h2 id="잠깐든-의문-다른-사람이-이걸-사용할때-라이브러리는-어떻게-하나">잠깐든 의문! 다른 사람이 이걸 사용할때 라이브러리는 어떻게 하나?<a hidden class="anchor" aria-hidden="true" href="#잠깐든-의문-다른-사람이-이걸-사용할때-라이브러리는-어떻게-하나">#</a></h2>
+<p>사용자의 PC에서 돌아갈때 라이브러리 또한 새로 받아야하는지 의문이 생겨 파트너에게 질문을 하니 <strong>&lsquo;각자 새로 설치해야 한다&rsquo;</strong> 라는 답변을 받았다.</p>
+<p>그럼 지금까지 받은 라이브러리 설치 내역을 문서로 정리해야 하나 싶을때 다음과 같은 방법을 알려주었다.</p>
+<p><strong>requirements.txt 만들기!!!</strong></p>
+<p>해당 파일에 지금까지 받은 파일들을 정리한 후</p>
+<pre tabindex="0"><code>pip install -r requirements.txt
+</code></pre><p>위와 같이 실행하면 한번에 깔 수 있다고 하였다.(휴~ 정말 다행이군&hellip;.)</p>
+<h2 id="여기서-한가지-더-github에-올리면-안되는-파일은-어떻게-하지">여기서 한가지 더! GitHub에 올리면 안되는 파일은 어떻게 하지?<a hidden class="anchor" aria-hidden="true" href="#여기서-한가지-더-github에-올리면-안되는-파일은-어떻게-하지">#</a></h2>
+<p>생각해보니 &lsquo;.env&rsquo; 파일에는 내 AI KEY 값이 저장되어 있다.</p>
+<p>만약 이걸 그냥 올려버리면 다른 사람들이 그 키를 사용한다는 건데 이럴 경우는 어떻게 해야 할까?</p>
+<p><strong>.gitignore</strong></p>
+<p>이 파일을 만들어서 등록해 놓으면 제외해서 올린다고 한다.</p>
+<p>그리고 한가지 팁이 있다면 &ldquo;&rsquo;.env&rsquo; 파일을 만들어야 하는구나&quot;를 알 수 있도록, 키 없이 형식만 보여주는 .env.example을 제공해주는게 좋다고 한다.</p>
+<h2 id="venv란-무엇인가">venv란 무엇인가?<a hidden class="anchor" aria-hidden="true" href="#venv란-무엇인가">#</a></h2>
+<p>env는 &ldquo;이 프로젝트 전용 라이브러리 보관함&rdquo; 이라고 한다.</p>
+<p>한 프로젝트만 한다면 문제 없지만 같은 PC에서 다양한 프로젝트를 하게 될 경우 충돌이 일어 날 수 있기 때문에 프로젝트만다 격리된 보관함을 만드는데 이게 <strong>venv</strong> 다.</p>
+<h2 id="다시-프로젝트로-돌아와서-문서를-넣고-돌려보자">다시 프로젝트로 돌아와서 문서를 넣고 돌려보자!<a hidden class="anchor" aria-hidden="true" href="#다시-프로젝트로-돌아와서-문서를-넣고-돌려보자">#</a></h2>
+<p>위에 지정한 data 폴더에 PPT, PDF, XLSX 파일을 넣고 테스트를 진행해 보았다.</p>
+<p>일단 해당 문서들의 해당 하는 질문과 없는 질문들을 던져 보았다.</p>
+<p>[테스트 결과]
+<img alt="alt text" loading="lazy" src="../img/test_image1.png"></p>
+<p>그런데 파트너 쪽에서는 제대로 파일을 못 읽었을 수도 있기 때문에 다음과 같은 코드를 추가하여 확인 해보라고 하였다.</p>
+<pre tabindex="0"><code># 임시 확인용 — 읽은 내용 미리보기
+for src, ch in zip(sources, chunks):
+    print(f&#34;\n── {src} ──&#34;)
+    print(ch[:200])
+</code></pre><p>그럼 슬라이드에서 뽑은 텍스트이 앞부분이 출력 된다.</p>
+<h2 id="중복-체크-기능을-넣자">중복 체크 기능을 넣자!<a hidden class="anchor" aria-hidden="true" href="#중복-체크-기능을-넣자">#</a></h2>
+<p>이제 문서를 읽는부분도 확인했으니 중복 체크 기능부터 만들고자 했다.</p>
+<p>먼저 아래와 같이 문장을 체크하는 코드를 만들었다.</p>
+<pre tabindex="0"><code>&#34;&#34;&#34;
+check_duplicate.py — A 문서 내부의 &#39;문장 단위&#39; 중복을 찾아 엑셀로 정리한다.
+
+슬라이드/페이지를 문장으로 쪼개 문장끼리 유사도를 비교한다.
+rag.py의 embed_model, cosine_similarity를 재사용한다.
+실행: python check_duplicate.py
+&#34;&#34;&#34;
+
+import os
+os.environ[&#34;HF_HUB_DISABLE_SYMLINKS&#34;] = &#34;1&#34;
+
+import re
+from pathlib import Path
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment
+
+# rag.py에서 만든 도구 재사용 (모델은 한 번만 로딩됨)
+from rag import embed_model, cosine_similarity, read_pptx, read_pdf, read_xlsx
+
+
+# ──────────────────────────────────────────────────────────────
+# 설정 — 여기만 바꾸면 됨
+# ──────────────────────────────────────────────────────────────
+TARGET_FILE = r&#34;C:\llm-rag-qa\작성중\A.pptx&#34;   # 검사할 작성 중인 문서
+THRESHOLD = 0.85           # 이 값 이상이면 &#39;비슷한 문장&#39;으로 본다
+MIN_CHARS = 10             # 이 글자 수 미만의 짧은 문장은 비교에서 제외
+OUTPUT_XLSX = r&#34;C:\llm-rag-qa\중복체크결과.xlsx&#34;
+
+
+def split_sentences(text):
+    &#34;&#34;&#34;텍스트를 문장/줄 단위로 쪼갠다. 마침표·물음표·느낌표·줄바꿈 기준.&#34;&#34;&#34;
+    # 줄바꿈을 먼저 문장 경계로 바꾸고, 문장부호 뒤에서 끊는다
+    parts = re.split(r&#34;[\n]+|(?&lt;=[.!?。])\s+&#34;, text)
+    out = []
+    for p in parts:
+        p = p.strip()
+        if len(p) &gt;= MIN_CHARS:   # 너무 짧은 건 버림
+            out.append(p)
+    return out
+
+
+def load_sentences(target):
+    &#34;&#34;&#34;대상 파일을 읽어 (문장, 출처위치) 목록으로 만든다.&#34;&#34;&#34;
+    suffix = target.suffix.lower()
+    if suffix == &#34;.pptx&#34;:
+        blocks = read_pptx(target)
+        label = &#34;슬라이드&#34;
+    elif suffix == &#34;.pdf&#34;:
+        blocks = read_pdf(target)
+        label = &#34;페이지&#34;
+    elif suffix == &#34;.xlsx&#34;:
+        blocks = read_xlsx(target)
+        label = &#34;시트&#34;
+    else:
+        raise ValueError(f&#34;지원하지 않는 형식: {suffix}&#34;)
+
+    sentences = []
+    locations = []
+    for block_idx, block in enumerate(blocks, start=1):
+        for sent in split_sentences(block):
+            sentences.append(sent)
+            locations.append(f&#34;{label} {block_idx}&#34;)
+    return sentences, locations
+
+
+def find_duplicates(sentences, threshold):
+    &#34;&#34;&#34;모든 문장 쌍을 비교해 유사도가 기준 이상인 쌍을 찾는다.&#34;&#34;&#34;
+    print(f&#34;🧠 문장 {len(sentences)}개를 벡터로 변환하는 중...&#34;)
+    vectors = list(embed_model.embed([f&#34;passage: {s}&#34; for s in sentences]))
+
+    print(&#34;🔍 문장끼리 유사도를 비교하는 중...&#34;)
+    pairs = []
+    n = len(sentences)
+    for i in range(n):
+        for j in range(i + 1, n):
+            score = cosine_similarity(vectors[i], vectors[j])
+            if score &gt;= threshold:
+                pairs.append((score, i, j))
+
+    pairs.sort(reverse=True)
+    return pairs
+
+
+def save_to_excel(pairs, sentences, locations, path):
+    &#34;&#34;&#34;찾은 중복 문장 쌍을 엑셀로 저장한다.&#34;&#34;&#34;
+    wb = Workbook()
+    ws = wb.active
+    ws.title = &#34;문장 중복 체크&#34;
+
+    headers = [&#34;유사도&#34;, &#34;위치 A&#34;, &#34;문장 A&#34;, &#34;위치 B&#34;, &#34;문장 B&#34;]
+    ws.append(headers)
+    for cell in ws[1]:
+        cell.font = Font(bold=True, color=&#34;FFFFFF&#34;, name=&#34;맑은 고딕&#34;)
+        cell.fill = PatternFill(&#34;solid&#34;, start_color=&#34;4472C4&#34;)
+        cell.alignment = Alignment(horizontal=&#34;center&#34;, vertical=&#34;center&#34;)
+
+    for score, i, j in pairs:
+        ws.append([
+            round(float(score), 3),
+            locations[i],
+            sentences[i][:300],
+            locations[j],
+            sentences[j][:300],
+        ])
+
+    widths = [10, 14, 55, 14, 55]
+    for col, w in enumerate(widths, start=1):
+        ws.column_dimensions[ws.cell(row=1, column=col).column_letter].width = w
+
+    for row in ws.iter_rows(min_row=2):
+        for cell in row:
+            cell.alignment = Alignment(vertical=&#34;top&#34;, wrap_text=True)
+
+    wb.save(path)
+
+
+if __name__ == &#34;__main__&#34;:
+    target = Path(TARGET_FILE)
+    print(f&#34;📂 검사 대상: {target.name}\n&#34;)
+
+    sentences, locations = load_sentences(target)
+    print(f&#34;📄 문장 {len(sentences)}개를 추출했습니다.\n&#34;)
+
+    if len(sentences) &lt; 2:
+        print(&#34;⚠️ 문장이 2개 미만이라 비교할 게 없습니다.&#34;)
+    else:
+        pairs = find_duplicates(sentences, THRESHOLD)
+        print(f&#34;\n✅ 유사도 {THRESHOLD} 이상인 문장 쌍을 {len(pairs)}개 찾았습니다.&#34;)
+
+        if pairs:
+            save_to_excel(pairs, sentences, locations, OUTPUT_XLSX)
+            print(f&#34;💾 결과를 저장했습니다: {OUTPUT_XLSX}&#34;)
+        else:
+            print(&#34;   (중복으로 볼 만한 문장이 없습니다. 깔끔하네요!)&#34;)
+</code></pre><ul>
+<li>
+<p>embed_model.embed()
+문장을 &lsquo;숫자 묶음(벡터)&lsquo;로 만들어주는 일은 한다. 벡터로 만든 이후에는 &lsquo;코사인 유사도&rsquo;로 두 벡터가 얼마나 같은 방향인지를 잰다. 1에 가까 울 수록 의미가 비슷하다는 말이다. 여기서 중요한건 똑같은게 아니라 비슷한가를 본다는 점이다.</p>
+</li>
+<li>
+<p>passage
+찾아지는 대상에는 passage, 찾는 질문에는 query를 붙이는건 e5모델의 약속이라고 한다.
+접두어를 맞춰주면 유사도가 더 정확진다.</p>
+</li>
+<li>
+<p>THRESHOLD = 0.85는 사람이 정하는 기준선이다.
+임계점에는 정답이 없고 결과를 보고 맞춰가는 값이라고 한다.
+너무 높이면 적게 잡고, 낮추면 너무 만힝 잡아서 실행해보고 결과를 보면서 맞춰나가야 하는값으로 보인다.</p>
+</li>
+<li>
+<p>코드 구조
+해당 코드는 &lsquo;문장 쪼개기(split_sentences) → 파일 읽어 문장 만들기(load_sentences) → 비교하기(find_duplicates) → 저장하기(save_to_excel)&lsquo;로 나뉘어져 있다.</p>
+</li>
+</ul>
+<h2 id="문제-발생-너무-많은-중복-문구-발생">문제 발생! 너무 많은 중복 문구 발생!<a hidden class="anchor" aria-hidden="true" href="#문제-발생-너무-많은-중복-문구-발생">#</a></h2>
+<p>디렉토리에 파일을 넣고 돌려보았을 때 문제없이 돌아가는걸 확인했다.</p>
+<p>문제는 결과물이었다.</p>
+<p>문장을 비교해서 중복 문구를 찾다보니 각 페이지에서 쓰는 소제목이나 정형문구들 마저 다 나오는 바람에 13페이지의 PPT에서 8천개 이상의 중복 문구를 찾아버렸다.</p>
+<p>이 부분을 줄여 보려고 고민해본 결과 생각한 방법은 2가지 였다.</p>
+<ol>
+<li>THRESHOLD를 놓여보자.</li>
+<li>정형문구들은 많으니깐 특정 개수 이상일 경우는 제외 해보자.</li>
+</ol>
+<p>이 방법으로 파트너에게 물어보자 다음과 같은 코드가 생성 되었다.</p>
+<p>[필터 추가]</p>
+<pre tabindex="0"><code>from collections import Counter
+
+# 같은 문장이 몇 번 나오는지 세서, 너무 자주 나오는 건 정형구로 보고 제외
+counts = Counter(sentences)
+REPEAT_LIMIT = 3   # 3번 이상 똑같이 나오면 정형구로 간주
+
+filtered = [(s, loc) for s, loc in zip(sentences, locations)
+            if counts[s] &lt; REPEAT_LIMIT]
+sentences = [s for s, loc in filtered]
+locations = [loc for s, loc in filtered]
+print(f&#34;   (정형구 제외 후 문장 {len(sentences)}개)&#34;)
+</code></pre><p>[완전히 똑같은 문구는 &lsquo;정형구&rsquo;로 간주]</p>
+<pre tabindex="0"><code>if threshold &lt;= score &lt; 0.97:   # 너무 똑같은 건 정형구로 보고 제외
+   pairs.append((score, i, j))
+</code></pre><p>[소제목 같은 짧은 문구 걸러내기]</p>
+<pre tabindex="0"><code>MIN_CHARS = 25   # 25자 미만 문장은 비교에서 제외 (소제목 거르기)
+</code></pre><p>위 기능들을 전부 넣고 돌려보자 100개 내외로 줄었다.</p>
+<p>하지만 줄어든 내용 중에서도 이걸 동일하게 볼 수 있나? 라는 의문이 드는 데이터들이 많이 보였다.</p>
+<p>이부분에 대해서 더 연구해 봐야겠다.</p>
+<hr>
+<p>*항해 두번째날 바람은 지나가고 아직은 순항중&hellip;&hellip;. *</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/%ED%9A%8C%EA%B3%A0/">회고</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/llm/">LLM</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/rag/">RAG</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/llm-dev-blog/">LLM 개발 일지</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '복사';
+
+        function copyingDone() {
+            copybutton.innerHTML = '복사 완료!';
+            setTimeout(() => {
+                copybutton.innerHTML = '복사';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -6,12 +6,12 @@
     <description>Recent content in Categories on LLM 개발 일지</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Fri, 26 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/llm-dev-blog/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RAG 개발 일지</title>
       <link>http://localhost:1313/llm-dev-blog/categories/rag-%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/</link>
-      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/llm-dev-blog/categories/rag-%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/</guid>
       <description></description>
     </item>
