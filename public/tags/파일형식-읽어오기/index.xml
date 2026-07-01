@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>파일형식 읽어오기 on LLM 개발 일지</title>
+    <link>http://localhost:1313/llm-dev-blog/tags/%ED%8C%8C%EC%9D%BC%ED%98%95%EC%8B%9D-%EC%9D%BD%EC%96%B4%EC%98%A4%EA%B8%B0/</link>
+    <description>Recent content in 파일형식 읽어오기 on LLM 개발 일지</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 29 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/llm-dev-blog/tags/%ED%8C%8C%EC%9D%BC%ED%98%95%EC%8B%9D-%EC%9D%BD%EC%96%B4%EC%98%A4%EA%B8%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Day 2 — 첫 RAG 실행 결과</title>
+      <link>http://localhost:1313/llm-dev-blog/posts/03-day2/</link>
+      <pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/llm-dev-blog/posts/03-day2/</guid>
+      <description>제대로 실행이 된 이후 무엇을 할까?</description>
+    </item>
+  </channel>
+</rss>

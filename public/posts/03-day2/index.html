@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
 <title>Day 2 — 첫 RAG 실행 결과 | LLM 개발 일지</title>
-<meta name="keywords" content="회고, LLM, RAG">
+<meta name="keywords" content="회고, LLM, RAG, 중복체크 기능, 파일형식 읽어오기, requirements.txt, venv">
 <meta name="description" content="제대로 실행이 된 이후 무엇을 할까?">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/llm-dev-blog/posts/03-day2/">
@@ -334,7 +334,7 @@ print(f&#34;📄 총 {len(chunks)}개의 조각을 읽었습니다.\n&#34;)
 <p>이 파일을 만들어서 등록해 놓으면 제외해서 올린다고 한다.</p>
 <p>그리고 한가지 팁이 있다면 &ldquo;&rsquo;.env&rsquo; 파일을 만들어야 하는구나&quot;를 알 수 있도록, 키 없이 형식만 보여주는 .env.example을 제공해주는게 좋다고 한다.</p>
 <h2 id="venv란-무엇인가">venv란 무엇인가?<a hidden class="anchor" aria-hidden="true" href="#venv란-무엇인가">#</a></h2>
-<p>env는 &ldquo;이 프로젝트 전용 라이브러리 보관함&rdquo; 이라고 한다.</p>
+<p>venv는 &ldquo;이 프로젝트 전용 라이브러리 보관함&rdquo; 이라고 한다.</p>
 <p>한 프로젝트만 한다면 문제 없지만 같은 PC에서 다양한 프로젝트를 하게 될 경우 충돌이 일어 날 수 있기 때문에 프로젝트만다 격리된 보관함을 만드는데 이게 <strong>venv</strong> 다.</p>
 <h2 id="다시-프로젝트로-돌아와서-문서를-넣고-돌려보자">다시 프로젝트로 돌아와서 문서를 넣고 돌려보자!<a hidden class="anchor" aria-hidden="true" href="#다시-프로젝트로-돌아와서-문서를-넣고-돌려보자">#</a></h2>
 <p>위에 지정한 data 폴더에 PPT, PDF, XLSX 파일을 넣고 테스트를 진행해 보았다.</p>
@@ -510,7 +510,7 @@ if __name__ == &#34;__main__&#34;:
 <p>문장을 비교해서 중복 문구를 찾다보니 각 페이지에서 쓰는 소제목이나 정형문구들 마저 다 나오는 바람에 13페이지의 PPT에서 8천개 이상의 중복 문구를 찾아버렸다.</p>
 <p>이 부분을 줄여 보려고 고민해본 결과 생각한 방법은 2가지 였다.</p>
 <ol>
-<li>THRESHOLD를 놓여보자.</li>
+<li>THRESHOLD를 높여보자.</li>
 <li>정형문구들은 많으니깐 특정 개수 이상일 경우는 제외 해보자.</li>
 </ol>
 <p>이 방법으로 파트너에게 물어보자 다음과 같은 코드가 생성 되었다.</p>
@@ -545,6 +545,10 @@ print(f&#34;   (정형구 제외 후 문장 {len(sentences)}개)&#34;)
       <li><a href="http://localhost:1313/llm-dev-blog/tags/%ED%9A%8C%EA%B3%A0/">회고</a></li>
       <li><a href="http://localhost:1313/llm-dev-blog/tags/llm/">LLM</a></li>
       <li><a href="http://localhost:1313/llm-dev-blog/tags/rag/">RAG</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/%EC%A4%91%EB%B3%B5%EC%B2%B4%ED%81%AC-%EA%B8%B0%EB%8A%A5/">중복체크 기능</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/%ED%8C%8C%EC%9D%BC%ED%98%95%EC%8B%9D-%EC%9D%BD%EC%96%B4%EC%98%A4%EA%B8%B0/">파일형식 읽어오기</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/requirements.txt/">Requirements.txt</a></li>
+      <li><a href="http://localhost:1313/llm-dev-blog/tags/venv/">Venv</a></li>
     </ul>
   </footer>
 </article>
