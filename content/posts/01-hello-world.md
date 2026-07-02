@@ -5,6 +5,7 @@ draft: false
 tags: ["회고", "LLM", "RAG", "시작"]
 categories: ["RAG 개발 일지"]
 summary: "LLM API로 ERP 챗봇을 만들던 도중 RAG를 시작한지 1일차"
+weight: 1
 ---
 
 ## 왜 이 블로그를 시작했나

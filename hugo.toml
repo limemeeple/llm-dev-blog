@@ -24,6 +24,7 @@ languageCode = "ko-kr"
   ShowCodeCopyButtons = true   # 코드 블록에 복사 버튼
   ShowToc = true               # 목차
   TocOpen = false
+  sort_order = "desc"
 
   # 홈 화면 소개
   [params.homeInfoParams]
