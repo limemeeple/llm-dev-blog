@@ -222,3 +222,5 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 >>>>>>> 5eff39dd494b5f8ca4d6a94a9bdd86449380bdf1
+public/index.json
+public/index.json
