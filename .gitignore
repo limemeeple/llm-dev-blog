@@ -224,3 +224,6 @@ __marimo__/
 >>>>>>> 5eff39dd494b5f8ca4d6a94a9bdd86449380bdf1
 public/index.json
 public/index.json
+public/
+resources/_gen/
+.hugo_build.lock
