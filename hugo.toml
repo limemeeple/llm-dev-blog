@@ -26,7 +26,6 @@ languageCode = "ko-kr"
   TocOpen = false
   sort_order = "desc"
 
-<<<<<<< HEAD
   [params.profileMode]
   enabled = true
   title = "라임미플의 AI 경험 도서관"
@@ -47,12 +46,6 @@ languageCode = "ko-kr"
   # 홈 화면 소개
   [params.homeInfoParams]
     Title = "AI 공부 및 개발일지 블로그에 오신걸 환영합니다. 👋"
-=======
-  # 홈 화면 소개
-  [params.homeInfoParams]
-    Title = "안녕, LLM 개발 일지에 온 걸 환영해 👋"
->>>>>>> 7f569af7754cd81e07382b208b2be14c6764da09
-    Content = "Java 백엔드 개발자가 LLM 엔지니어로 전향하는 과정을 기록합니다. RAG, 임베딩, 평가 — 삽질과 성장의 기록."
 
   # 소셜 링크 (필요 없으면 지워도 됨)
   [[params.socialIcons]]
@@ -63,7 +56,7 @@ languageCode = "ko-kr"
 [menu]
   [[menu.main]]
     identifier = "posts"
-<<<<<<< HEAD
+
     name = "개발일지"
     url = "/posts/"
     weight = 10
@@ -77,25 +70,11 @@ languageCode = "ko-kr"
     name = "태그"
     url = "/tags/"
     weight = 30
-=======
-    name = "글 목록"
-    url = "/posts/"
-    weight = 10
-  [[menu.main]]
-    identifier = "tags"
-    name = "태그"
-    url = "/tags/"
-    weight = 20
->>>>>>> 7f569af7754cd81e07382b208b2be14c6764da09
   [[menu.main]]
     identifier = "search"
     name = "검색"
     url = "/search/"
-<<<<<<< HEAD
     weight = 40
-=======
-    weight = 30
->>>>>>> 7f569af7754cd81e07382b208b2be14c6764da09
 
 # 검색 기능을 위한 출력 설정
 [outputs]
