@@ -1,8 +1,8 @@
 ---
-title: "3. 웹사이트의 정보와 디자인"
+title: "3. 웹사이트의 정보와 디자인 2"
 date: 2026-07-28
 draft: false
-tags: [" ", ""]
+tags: ["CSS", "애니메이션", "미디어쿼리"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 DAY3"
 weight: 3
@@ -942,3 +942,46 @@ a{
 - 다양한 디지털 기기의 화면 상에 표시되는 영역을 의미 너비와 배율을 설정할 때 사용하는 메타 태그의 속성 중 하나.
 - width=device-width : viewport의 가로폭 = 디바이스의 가로폭
 - initial-scale=1.0 : 비율은 항살 1.0
+
+[실습코드]
+```
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <!--
+    모바일모드는 실제 크기와 상관없이 기본적으로 900px로 인지하도록 되어있음.
+    meta 태그로 실제 기기(브라우저)화면을 폭으로 그대로 사용하도록 설정해 주어야 한다.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미디어쿼리 기초</title>
+  
+  <style>
+  
+    .media {
+        width: 500px;
+        height: 500px;
+        background-color: red;
+        transition: width 0.5s, height 0.5s,background-color 0.5s;
+    }
+  
+    @media (min-width:320px) and (max-width:800px) {
+        .media{
+            width: 300px;
+            height: 300px;
+            background-color: yellow;
+            border: 10px solid blue;
+        }
+        
+    }
+  </style>
+  
+</head>
+<body>
+
+  <div class="media"></div>
+
+</body>
+</html>
+```
