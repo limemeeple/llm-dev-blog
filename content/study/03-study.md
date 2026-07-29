@@ -608,4 +608,337 @@ a{
 </body>
 </html>
 ```
+### 본문과 메뉴 영역 애니메이션
+- 메뉴 영역에 마우스를 올렸을 때 색상이 변하도록 하기
+- 본문 영역에 마우스 를 올렸을 때 색상이 변하도록 하기
+[실습코드-html]
+```
+<!DOCTYPE html>
+<html>
 
+<head>
+
+    <meta charset="UTF-8">
+    <title>쇼핑몰 상단 만들기</title>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="img/favicon.png">
+</head>
+
+<body>
+    <div class="container">
+
+        <header id="intro">
+
+            <h1>
+                <a href="https://academy.elice.io/">엘리스 사전</a>
+            </h1>
+
+            <nav>
+                <ul>
+                    <li class="one"><a href="#">캐릭터 소개</a></li>
+                    <li class="two"><a href="#">줄거리</a></li>
+                    <li class="three"><a href="#">부록</a></li>
+                </ul>
+            </nav>
+
+        </header>
+        <main role="main" id="main">
+
+            <article class="one">
+                <a href="#">
+                    <img src="img/image1.png" alt="White Rabbit">
+                    <h2>하얀토끼</h2>
+                </a>
+            </article>
+
+            <article class="two">
+                <a href="#">
+                    <img src="img/image2.png" alt="Cheshire Cat">
+                    <h2>체셔 고양이</h2>
+                </a>
+            </article>
+
+            <article class="three">
+                <a href="#">
+                    <img src="img/image3.png" alt="Queen of Hearts">
+                    <h2>하트여왕</h2>
+                </a>
+            </article>
+
+            <article class="one">
+                <a href="#">
+                    <img src="img/image4.png" alt="Mad Hatter">
+                    <h2>모자장수</h2>
+                </a>
+            </article>
+
+            <article class="text">
+                <p>엘리스에 오신 여러분 환영합니다! :)</p>
+            </article>
+
+            <article class="two">
+                <a href="#">
+                    <img src="img/image5.png" alt="Dodo">
+                    <h2>도도새</h2>
+                </a>
+            </article>
+
+            <article class="three">
+                <a href="#">
+                    <img src="img/image6.png" alt="Caterpillar">
+                    <h2>애벌레</h2>
+                </a>
+            </article>
+
+            <article class="one">
+                <a href="#">
+                    <img src="img/image7.png" alt="Card Soldier">
+                    <h2>카드병정</h2>
+                </a>
+            </article>
+
+            <article class="two">
+                <a href="#">
+                    <img src="img/image8.png" alt="Golden Key">
+                    <h2>황금열쇠</h2>
+                </a>
+            </article>
+
+        </main>
+        <!--art + shift + f로 코드 정렬 가능-->
+        <footer id="footer">
+
+            <div class="copyright">
+                <p>Copyright © 2016-2018 elice. All rights reserved.</p>
+            </div>
+
+            <div class="address">
+                <p>대전광역시 유성구 문지로 193 KAIST 문지캠퍼스 진리관 T326호</p>
+            </div>
+
+        </footer>
+    </div>
+
+</body>
+
+</html>
+```
+[실습코드-css]
+```
+*{/*모든 요소에 여백을 없애겠다.*/
+    margin: 0;
+    padding: 0;
+}
+
+div.container{
+    /*넓이를 고정*/
+    width:960px;
+}
+
+/*list의 스타일을 제거*/
+ol,ul{
+    list-style-type: none;
+}
+
+/*a 태그의 스타일을 제거*/
+a{
+    text-decoration-line: none;
+    color: black;
+}
+
+#intro{/*header의 넓이와 높이 지정*/
+    width: 100%;
+    height: 80%;
+}
+
+#intro h1{
+    float: left;
+    width: 50%;
+    height: 80px;
+    background-color: #fbfbfb;
+}
+/*a 태그 내 글자를 공간형성을 위해 block으로 변환*/
+#intro h1 a{
+    display: block;
+    padding: 15px 0 0 30px
+}
+#intro nav{
+    float: right;
+    width: 50%;
+    height: 80px;
+    background-color: pink;   
+}
+#intro nav ul li{
+    float:left;
+    height: 80px;
+    width: 33.3%;
+    text-align: center;
+    line-height: 80px;
+}
+/*메뉴 배경색*/
+#intro nav ul li.one{
+    background-color: lightgray;
+}
+#intro nav ul li.two{
+    background-color: darkgray;
+}
+#intro nav ul li.three{
+    background-color: grey;
+}
+#intro nav ul li a{
+    font-size: 20px;
+    font-weight: bold;
+}
+/*움직이는 웹 - 실습5*/
+#intro nav ul li:hover{  
+  background-color: red;
+}
+#intro nav ul li{
+   transition-property: background-color;
+   transition-duration: 1000ms;
+}
+
+/*실습8*/
+/*main 영역 정리 - 크기 지정, 정렬 지정*/
+#main article{
+    width : 50%;
+    height: 320px;
+    float: left;
+}
+/*a 태그 영역을 article 영역과 동등하게*/
+#main article a{
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+#main article.one{
+    background-color: blueviolet;
+}
+
+#main article.two{
+    background-color: purple;
+}
+
+#main article.three{
+    background-color: #3ab6bc;
+}
+/*상위 요소 크기 변화에 이미지도 맞추도록...*/
+#main article img{
+    width: 100%;
+}
+
+#main article h2{
+    color: white;
+    font-size: 25px;
+    padding: 3px 0;
+    text-align: center;
+}
+#main article.text{
+    width: 100%;
+    height: 60px;
+}
+#main article.text p{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 17px 0;
+    border: 1px solid black;
+    height: 24px;
+}
+
+/*움직이는 웹 - 실습6*/
+#main article.one:hover{
+    background-color: #8683bd;
+}
+#main article.one{
+    transition-property: background-color;
+    transition-duration: 3000ms;
+}
+#main article.two:hover{
+    background-color: #bf7eac;
+    
+}
+#main article.two{
+    transition-property: background-color;
+    transition-duration: 3000ms;
+}
+#main article.three:hover{
+    background-color: #75ccd0;
+    
+}
+#main article.three{
+    transition-property: background-color;
+    transition-duration: 3000ms;
+}
+/*
+#main article:hover{
+    opacity: 0.6;
+}
+#main article{
+    transition-property: opacity;
+    transition-duration: 3000ms;
+}
+*/
+#main article img:hover{
+    /*
+      이미지 주변에 영향 생김.
+      0,0 좌표를 기준으로 커짐.
+      CPU 연산이므로 부드럽지 않다.
+      width: 110%;
+      height: 110%;
+    */
+    transform: scale(1.1);
+}
+#main article img{
+    transition:all 500ms;
+}
+
+#footer{
+    clear: both;/*이전에 사용한 float은 무시*/
+    color: gray;
+    text-align: center;
+    background-color: lightgray;
+    font-size: 12px;
+    padding: 20px 0;
+    height:  30px;
+}
+#footer div.copyright{
+    width: 50%;
+    float: left;
+}
+
+#footer div.address{
+    width: 50%;
+    float: right;
+}
+```
+*변경 사항 및 설명은 css 실습 코드에 주석 참조.
+
+### 미디어 쿼리 소개
+- 미디어 쿼리란 PC뿐만 아니라 모바일과 태블릿에도 대응 되는 웹사이틑 만들기 위해 사용.
+- 모바일에 대응되는 반응형 또는 적응형 웹사이트를 만들 때 사용되는 CSS 구문
+
+```
+@media (min-width:320px) and (max-width:800px) {
+        .media{
+            width: 300px;
+            height: 300px;
+            background-color: yellow;
+            border: 10px solid blue;
+        }
+        
+    }
+```
+- min-width와 max-width로 브라우저 가록폭 설정.
+- 위 코드는 가로폭이 최소 320px, 최대 800px 되었을 경우, 중괄호 안의 css 속성으로 대체하겠다는 의미
+
+#### viewport
+```
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+- **미디어 쿼리가 제대로 작동하지 않는 문제**가 발생할 수 있으므로 **viewport**로 너비와 배율을 설정해야 모바일 디바이스에서 **의도한**화면을 볼 수 있음.
+- 다양한 디지털 기기의 화면 상에 표시되는 영역을 의미 너비와 배율을 설정할 때 사용하는 메타 태그의 속성 중 하나.
+- width=device-width : viewport의 가로폭 = 디바이스의 가로폭
+- initial-scale=1.0 : 비율은 항살 1.0
