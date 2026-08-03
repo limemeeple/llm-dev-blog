@@ -134,7 +134,7 @@ function handler(){...}
 - 웹 브라우저가 알려주는 HTML 요소에 대한 사건의 발생.
 - 자바스크립트는 발생한 이벤트에 반응하여 특정 동작을 수행할 수 있다.
 
-#### 이벤트 핸드러
+#### 이벤트 핸들러
 - 이벤트가 발생했을 때 처리를 담당하는 함수.
 - 지정된 이벤트가 발생하면, 그 요소에 등록된 이벤트 핸들러를 실행한다.
 
@@ -365,6 +365,7 @@ button.addEventListener("click", function(event){
 
 #### 이벤트 핸들러 제거 - removeEventListener
 - 'removeEventListener'메서드로 등록된 이벤트 핸들러를 제거할 수 있다.
+
 [실습 코드]
 ```
 <!DOCTYPE html>
