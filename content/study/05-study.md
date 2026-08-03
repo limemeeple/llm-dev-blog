@@ -2,7 +2,7 @@
 title: "5. JavaScript 문법 2"
 date: 2026-07-28
 draft: false
-tags: ["", ""]
+tags: ["javascript"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 DAY5"
 weight: 5
