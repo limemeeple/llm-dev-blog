@@ -2,7 +2,7 @@
 title: "8. 내장 객체, 실행 컨텍스트와 this"
 date: 2026-08-09
 draft: false
-tags: ["", ""]
+tags: ["내장 객체", "this"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 DAY8"
 weight: 8
