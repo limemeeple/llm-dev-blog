@@ -2,7 +2,7 @@
 title: "9. 비동기1 - 이벤트 루프와 Promise"
 date: 2026-08-12
 draft: false
-tags: ["", ""]
+tags: ["Promise", "마이크로태스크 큐", "async/await"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 DAY9"
 weight: 9
@@ -418,4 +418,46 @@ rejectedPromise.catch((error) => { console.log(`error: ${error}`); }); // 'error
         console.log('4. 프로그램 종료');
     </script>
 </html>
+```
+### Promise의 단점
+- Promise를 이용하여 비동기를 처리하는 경우, 체이닝이 계속되면 가독성이 좋지 않은 코드가 될 수 있다.
+- ES8부터 도입된 asynx/await 문법을 사용하면, 비동기 처리를 훨씬 깔끔하게 작성할 수 있다.
+
+### async/await
+- async/await을 이용해 비동기 처리를 동기 처리하듯이 작성할 수 있다.
+```
+async function fetchData(){
+    try{
+        const data = await fetchData('https://api.example.com/deta1');
+        console.log(data);
+    }catch(error){
+        console.error('Error:', error);
+    }
+}
+
+fetchData();
+```
+- 'await' 키워드는 무조건 'async' 함수 내부에서만 사용할 수 있다.
+- async 함수는 항상 반환값을 resolve하는 Promise를 반환한다.
+- 'await' 키워드를 사용하면, 해당 비동기 처리가 완료될 때까지 기다린 후, resolve 된 값을 반환한다.
+- 동기 처리 방식과 달리, await 키워드를 통해 진행되는 비동기 처리가 끝난 후에야 다음 코드가 실행 된다.
+- async/await 사용 시에는 try ... catch ... finally 문을 사용하여 에러 처리를 진행한다.
+
+### 예외처리
+- 모든 프로그램은 에러가 발생할 가능성이 존재하며, 발생시 프로그램은 종료된다.
+- 종료를 방지하기 위해 예외 상황에 최대한 대응하는 코드를 작성해야 한다.
+
+#### try ... catch 예외 처리
+- 기본적으로 try ... catch 문을 이용해 예외를 처리할 수 있다.(try만 단독으로 사용할 수 는 없다.)
+- finally 문을 추가해 에러 여부와 상관없이 실행되는 코드를 작성할 수 있다.
+```
+const jsonString = '{"name": "John", "age": 30'; // JSON 형식에 맞지 않음.
+
+try{
+    JSON.parse(jsonString); //SyntaxError
+}catch(err){
+    console.log(err);
+}finally{
+    console.log("JSON 처리 완료");
+}
 ```
