@@ -2,7 +2,7 @@
 title: "10. Ajax와 RestAPI"
 date: 2026-08-14
 draft: false
-tags: ["", ""]
+tags: ["API", "REST API"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 DAY10"
 weight: 10
