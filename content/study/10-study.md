@@ -4,7 +4,7 @@ date: 2026-08-14
 draft: false
 tags: ["API", "REST API"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY10"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 10
 ---
 ### API란?

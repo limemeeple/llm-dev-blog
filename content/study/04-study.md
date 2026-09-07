@@ -4,7 +4,7 @@ date: 2026-07-28
 draft: false
 tags: ["javascript"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY4"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 4
 ---
 #### CSS 속성 상속

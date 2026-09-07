@@ -4,7 +4,7 @@ date: 2026-08-12
 draft: false
 tags: ["Promise", "마이크로태스크 큐", "async/await"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY9"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 9
 ---
 ### 타이머 함수

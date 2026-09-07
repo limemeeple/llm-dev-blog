@@ -4,7 +4,7 @@ date: 2026-07-27
 draft: false
 tags: ["HTML 태그", "CSS"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY2"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 2
 ---
 ### HTML 기본 태그

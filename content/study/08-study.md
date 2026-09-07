@@ -4,7 +4,7 @@ date: 2026-08-09
 draft: false
 tags: ["내장 객체", "this"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY8"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 8
 ---
 ## 내장 객체

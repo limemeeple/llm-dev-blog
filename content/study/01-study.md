@@ -4,7 +4,7 @@ date: 2026-07-24
 draft: false
 tags: ["코드 컨벤션", "HTML", "CSS"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 첫 시작"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 1
 ---
 ## 파이썬 코드 컨벤션이과 패키지 관리

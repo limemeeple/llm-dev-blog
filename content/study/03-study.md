@@ -4,7 +4,7 @@ date: 2026-07-28
 draft: false
 tags: ["CSS", "애니메이션", "미디어쿼리"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY3"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 3
 ---
 ### 레이아웃에 영향을 미치는 속성

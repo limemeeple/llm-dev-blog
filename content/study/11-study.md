@@ -4,7 +4,7 @@ date: 2026-08-19
 draft: false
 tags: ["OOP"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY11"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 11
 ---
 ## OOP란?

@@ -1,6 +1,6 @@
 ---
-title: "12. next.js"
-date: 2026-08-20
+title: "13. next.js 2"
+date: 2026-08-24
 draft: false
 tags: ["route", "Image"]
 categories: ["STUDY"]

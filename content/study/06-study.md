@@ -4,7 +4,7 @@ date: 2026-07-28
 draft: false
 tags: ["DOM", "EVENT"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY6"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 6
 ---
 ## DOM과 이벤트

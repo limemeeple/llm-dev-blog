@@ -4,7 +4,7 @@ date: 2026-08-04
 draft: false
 tags: ["스코프", "ES6"]
 categories: ["STUDY"]
-summary: "이어드림2026 서비스 개발 수업 DAY7"
+summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 7
 ---
 ### let, const
