@@ -7,6 +7,7 @@ categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 정리"
 weight: 12
 ---
+***코드에 주석으로 내용 첨부**
 ### <index.html>
 ```
 <!doctype html>
