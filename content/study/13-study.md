@@ -2,12 +2,13 @@
 title: "13. next.js 2"
 date: 2026-08-24
 draft: false
-tags: ["axios", "board 만들기"]
+tags: ["axios", "board 만들기", "jwt"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 정리(코드 리뷰)"
 weight: 13
 ---
 ***코드에 주석으로 내용 첨부**
+### axios
 ### <src/app/page.js>
 ```
 // SendList 컴포넌트를 불러온다.
@@ -113,7 +114,7 @@ function Post({list}){
 - 구조 분해(destructuring)는 객체나 배열안에서 필요한 값만 꺼내 변수로 만드는 문법이다.
 
 ---
-
+### 게시판 만들기
 ### <src/app/page.jsx>
 ```
 //npm install axios
@@ -352,7 +353,7 @@ export default function Post({idx}){
 }
 ```
 ---
-
+### jwt
 ### <src/app/layout.jsx>
 ```
 export default function Layout({children}){
