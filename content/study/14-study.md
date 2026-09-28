@@ -2,7 +2,7 @@
 title: "14. next.js 3"
 date: 2026-08-26
 draft: false
-tags: ["kakaoMap", "chart", "data_flow"]
+tags: ["kakaoMap", "chart", "data_flow", "context"]
 categories: ["STUDY"]
 summary: "이어드림2026 서비스 개발 수업 정리(코드 리뷰)"
 weight: 14
@@ -582,4 +582,133 @@ App ─ item ─→ First                 App (Provider)
             Second                   │   └─ Second (props 없음)
               ↓ item                 │       └─ Third  ← useContext
             Third ✓                  └─ Island        ← useContext
+```
+---
+### rendering
+### <src/app/page.jsx>
+```
+'use client';
+import PostComp from "@/app/PostComp";
+import UserComp from "@/app/UserComp";
+import {createContext, useState} from "react";
+
+// createContext의 인자는 Provider 없이 useContext를 호출했을 때 받게 되는 '기본 값'이다.
+// 여기서는 실제 모양을 미리 적어두어 어떤 형태가 오는지 보여주는 역할도 한다.
+const PostContext = createContext({cnt:0, setCnt:()=>{}});
+const UserContext = createContext({info:{id:'',pw:''}, setInfo:()=>{}});
+
+export default function App(){
+
+    const[cnt, setCnt] = useState(0);
+    const[info, setInfo] = useState({id:'',pw:''});
+
+    return(
+      <>
+          {/* 값과 setter를 함께 보내 하위에서 상태를 바꿀 수 있게 한다. */}
+          <PostContext.Provider value={{cnt:cnt, setCnt:setCnt}}>
+              <PostComp/>
+          </PostContext.Provider>
+
+          {/* Provider를 두 개로 분리한 이유는 하나로 합칠 경우 
+              cnt가 바뀔 때 UserComp가지 재렌더링 되기 때문이다. 
+              관심사별로 나누는게 좋다.*/}
+          <UserContext.Provider value={{info:info, setInfo:setInfo}}>
+               <UserComp/>
+          </UserContext.Provider>
+      </>
+    );
+}
+
+export {PostContext, UserContext}; // == {PostContext:PostContext}
+```
+### <src/app/PostComp.jsx>
+```
+import {useContext, useMemo} from "react";
+import {PostContext} from "@/app/page";
+
+export default function PostComp(){
+
+    const {cnt, setCnt} = useContext(PostContext);
+    /*
+    let html = <div>
+        <h3>Post에 대한 조회수:{cnt}</h3>
+        <button onClick={() => {setCnt(cnt+1)}}>좋아요!</button>
+    </div>;
+    console.log("Post component rendering...");
+    */
+
+    // useMemo(계산함수, 의존성 배열)
+    // 의존성 배열의 값이 바뀌지 않으면 이전 계산 결과를 그대로 재사용한다.
+    let html = useMemo(function (){
+        console.log("Post component rendering...");
+        return( <div>
+                    <h3>Post에 대한 조회수:{cnt}</h3>
+                    <button onClick={() => {setCnt(cnt+1)}}>좋아요!</button>
+                </div>)
+    },[cnt]);
+
+    return(
+        <>
+            {html}
+        </>
+    );
+}
+```
+#### useMemo
+- 비싼 계산 결과를 기억해뒀다가 재사용 하는 훅.
+- React 컴포넌트는 상태가 바뀔 때마다 함수 전체가 처음부터 다시 실행 됨. 하지만 useMemo를 사용하면 의존성 배열에 있는 값이 바뀌었을 때만 함수를 실행 함. 안 바뀌었을 경우 지난번 결과를 꺼내 사용함.
+- 문법
+```
+const 결과 = useMoemo(() => 계산, [의존성])
+```
+- 같은 객체를 계속 쓰기 위해서도 쓰인다.(참조 고정)
+- 쓰기 좋을때와 쓰면 안될때
+|쓰기 좋을때|쓰면 안될때|
+|----|----|
+|정렬,필터,집계 같은 계산이 실제로 무거울때|단순계산(a+b, arr.length)|
+|Context의 value에 객체를 넣을때|원시값을 반환할 때|
+|React.momo로 감싼 자식에게 객체나 배열을 넘길때|그냥 최적화니깐 붙이려고 할때(목적없이)| 
+- 의존성 배열을 매번 비교해야 하고, 이전 값을 메모리에 들고 있어야 하기 때문에 가벼운 계산에 붙이면 손해이다.
+
+
+### <src/app/UserComp.jsx>
+```
+'use client';
+import {useContext, useMemo, useState} from "react";
+import {UserContext} from "@/app/page";
+
+export default function UserComp(){
+
+    //분해구조할당
+    const{info, setInfo}=useContext(UserContext);
+
+    const inputVal = function(e){
+        setInfo({
+            ...info,
+            [e.target.name]:e.target.value,
+        });
+    }
+    /*
+    let html = <div>
+        <p>ID:<input type="text" value={info.id} name="id" onChange={inputVal}/></p>
+        <p>PW:<input type="text" value={info.pw} name="pw" onChange={inputVal}/></p>
+    </div>
+
+    console.log("user component rendering....");
+    */
+
+    let html = useMemo(function(){
+        console.log("user component rendering....");
+        return (<div>
+                    <p>ID:<input type="text" value={info.id} name="id" onChange={inputVal}/></p>
+                    <p>PW:<input type="text" value={info.pw} name="pw" onChange={inputVal}/></p>
+                </div>);
+    },[info])
+
+    return(
+        <>
+            {html}
+        </>
+    );
+}
 ```
